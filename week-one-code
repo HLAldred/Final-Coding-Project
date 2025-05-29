@@ -1,0 +1,119 @@
+#-----------------
+#Final Project Week One
+#May 21 - 28
+#Hailey-lynn Aldred
+#HHHhhhhhhhhHHHhHHHHHhh
+#-----------------
+
+import pygame, sys #this is important
+
+#I'm gonna do everything in one file for now
+
+#settings
+WIDTH    = 1280
+HEIGHT   = 720
+FPS      = 60
+TILESIZE = 64
+
+WORLD_MAP = [
+    ' ',' ',' ',' ',' ',' ',' ',' ','u',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+    ]
+
+
+
+class User(pygame.sprite.Sprite): 
+    #hell yeah
+    def __init__(self,pos,groups): #this is also important
+        super().__init__(groups)
+        self.image = pygame.image.load('../Final Game/User/test/user_test.png').convert_alpha()
+        self.rect = self.image.get_rect(topleft = pos)
+        self.direction = pygame.math.Vector2()
+        #self.status = 'down'
+        self.frame_index = 0
+        self.animation_speed = 0.15
+        
+    def input(self): #this will include other actions later, but for now it will just have movement
+        keys = pygame.key.get_pressed()
+        #--y direction
+        if keys[pygame.K_UP]:
+            self.direction.y = -1
+            #self.status = 'up'
+        elif keys[pygame.K_DOWN]:
+            self.direction.y = 1
+            #self.status = 'down'
+        else:
+            self.direction.y = 0
+        #--x direction
+        if keys[pygame.K_RIGHT]:
+            self.direction.x = 1
+            #self.status = 'right'
+        elif keys[pygame.K_LEFT]:
+            self.direction.x = -1
+            #self.status = 'left'
+        else:
+            self.direction.x = 0
+            
+    def update(self):
+        self.input()
+            
+            
+class Level:
+    def __init__(self):
+        # get display surface
+        self.display_surface = pygame.display.get_surface()
+        # sprite group setup
+        self.visible_sprites = pygame.sprite.Group()
+        self.obstacle_sprites = pygame.sprite.Group()
+        
+        #sprite set-up
+        self.create_map()
+        
+    def create_map(self):
+        for row_index,row in enumerate(WORLD_MAP):
+            for col_index, col in enumerate(row):
+                x = col_index * TILESIZE
+                y = row_index * TILESIZE
+                if col == 'u':
+                    User((x,y),[self.visible_sprites])
+            
+        
+    def run(self): 
+        # update and draw game
+        self.visible_sprites.draw(self.display_surface)
+        self.visible_sprites.update()
+            
+class Game:
+    def __init__(self):
+        pygame.init()
+        self.screen = pygame.display.set_mode((WIDTH,HEIGHT))
+        pygame.display.set_caption('Mystery Hunt')#i need to come up with a better name
+        self.clock = pygame.time.Clock()
+        
+        self.level = Level()
+        
+    def run(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                    
+            self.screen.fill('pink')
+            self.level.run()
+            pygame.display.update()
+            self.clock.tick(FPS)
+            
+            
+if __name__ == '__main__':
+    game = Game()
+    game.run()
