@@ -1,0 +1,83 @@
+#-----------------
+#Final Project Week Two User
+#May 29 - June 4
+#Hailey-lynn Aldred
+#-----------------
+import pygame
+from settings import *
+
+class User(pygame.sprite.Sprite): 
+    def __init__(self,pos,groups):
+        super().__init__(groups)
+        sprite_original = pygame.image.load('C:/Users/Brald/HL CompSci 30/OOP/Final Game/User/test/user_test.png').convert_alpha()
+        #--I had to look this part up bc my sprite was too small
+        original_width,original_height = sprite_original.get_size() 
+        new_width,new_height = original_width * 3, original_height * 3
+        self.image = pygame.transform.scale(sprite_original,(new_width,new_height))
+        #--
+        self.rect = self.image.get_rect(topleft = pos)
+        self.import_user_assets()
+        self.direction = pygame.math.Vector2()
+        self.speed = 3
+        self.status = 'for'
+        self.frame_index = 0
+        self.animation_speed = 0.15
+        
+    def import_user_assets(self):
+        character_path = '../graphics/user/'
+        self.animations = {'back': [],'for': [],'left': [],'right': [],
+            'right_idle': [],'left_idle': [],'back_idle': [],'for_idle': [],
+            'right_attack': [],'left_attack': [],'back_attack': [],'for_attack': []}
+        for animation in self.animations.keys():
+            full_path = character_path + animation
+            self.animations[animation] = import_folder(full_path)
+        
+    def input(self): #this will include other actions later, but for now it will just have movement
+        keys = pygame.key.get_pressed()
+        #--y direction
+        if keys[pygame.K_UP]:
+            self.direction.y = -1
+            self.status = 'back'
+        elif keys[pygame.K_DOWN]:
+            self.direction.y = 1
+            self.status = 'for'
+        else:
+            self.direction.y = 0
+        #--x direction
+        if keys[pygame.K_RIGHT]:
+            self.direction.x = 1
+            self.status = 'right'
+        elif keys[pygame.K_LEFT]:
+            self.direction.x = -1
+            self.status = 'left'
+        else:
+            self.direction.x = 0
+            
+    def get_status(self):
+        if self.direction.x == 0 and self.direction.y == 0:
+            if not 'idle' in self.status:
+                self.status = self.status + '_idle'
+            
+            
+    def move(self,speed):
+        if self.direction.magnitude() != 0:
+            self.direction = self.direction.normalize()
+        self.rect.center += self.direction * speed
+            
+            
+    def animate(self):
+        animation = self.animations[self.status]
+        
+        #loop over the frame index
+        self.frame_index += self.animation_speed
+        if self.frame_index >= len(animation):
+            self.frame_index = 0
+            
+        #set image
+        #self.image = animation[int(self.frame_index)]
+        
+    def update(self):
+        self.input()
+        self.get_status()
+        self.animate()
+        self.move(self.speed)
