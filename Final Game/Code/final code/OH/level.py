@@ -1,6 +1,5 @@
 #-----------------
-#Final Project Week Two Level
-#May 29 - June 4
+#Final Project Level
 #Hailey-lynn Aldred
 #-----------------
 from user import User
