@@ -1,6 +1,5 @@
 #-----------------
-#Final Project Week Two Settings
-#May 29 - June 4
+#Final Project Settings
 #Hailey-lynn Aldred
 #-----------------
 
