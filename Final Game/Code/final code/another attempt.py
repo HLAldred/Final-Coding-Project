@@ -1,10 +1,3 @@
-#-----------------
-#Final Project Week Two
-#May 29 - June 4 
-#Hailey-lynn Aldred
-#HHHhhhhhhhhHHHhHHHHHhh
-#-----------------
-
 import pygame, sys #this is important
 from os import walk #i spent like 20 minutes trying to figure out where walk was coming from only to see this 2 days later
 from csv import reader
