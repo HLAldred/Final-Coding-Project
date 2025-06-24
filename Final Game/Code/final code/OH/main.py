@@ -1,6 +1,5 @@
 #-----------------
-#Final Project Week Two Main
-#May 29 - June 4
+#Final Project Main
 #Hailey-lynn Aldred
 #-----------------
 
