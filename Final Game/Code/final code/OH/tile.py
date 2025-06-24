@@ -1,4 +1,7 @@
-
+#-----------------
+#Final Project Tile
+#Hailey-lynn Aldred
+#-----------------
 import pygame
 from settings import *
 
