@@ -1,6 +1,5 @@
 #-----------------
-#Final Project Week Two User
-#May 29 - June 4
+#Final Project User
 #Hailey-lynn Aldred
 #-----------------
 import pygame
@@ -25,7 +24,7 @@ class User(pygame.sprite.Sprite):
         self.obstacle_sprites = obstacle_sprites
     
         
-    def input(self): #this will include other actions later, but for now it will just have movement
+    def input(self): 
         keys = pygame.key.get_pressed()
         #--y direction
         if keys[pygame.K_UP]:
